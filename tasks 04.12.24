@@ -1,1 +1,71 @@
+# Task 1
+import scipy
+import scipy.linalg
+A = [[1, 2], [3, -1]]
+B = [10, 5]
+x, y = scipy.linalg.solve(A, B)
+print('Task 1')
+print("x =", x)
+print("y =", y)
 
+
+# Task 2
+from scipy.optimize import root_scalar
+from math import sqrt
+a = 2
+b = -4
+c = 1
+D = b**2-4*a*c
+x1 = (-b + sqrt(D)) / (2 * a)
+x2 = (-b - sqrt(D)) / (2 * a)
+print('Task 2')
+print('x1 =',x1)
+print('x2 =',x2)
+
+
+
+# Task 3
+import scipy
+import scipy.linalg
+A = [[2, 3, 1], [4, -1, 5], [6, 2, 3]]
+B = [9, 15, 23]
+x, y, z = scipy.linalg.solve(A, B)
+print('Task 3')
+print("x =", x)
+print("y =", y)
+print("z =", z)
+
+
+
+
+# Task 4
+import numpy as np
+coefficients = [1, -6, 11, -6]
+roots = np.roots(coefficients)
+print('Task 4')
+print("Корни уравнения:", roots)
+
+
+
+# Task 5 c помощью gpt
+import numpy as np
+from scipy.optimize import brentq
+def equation(x):
+    return np.sin(x) + np.log(x) - 1
+a = 1
+b = 3
+solution = brentq(equation, a, b)
+print('Task 5')
+print(f"Решение уравнения в диапазоне (1, 3): x = {solution}")
+
+
+
+
+
+# Task 6
+from scipy.optimize import minimize
+def f(x):
+    return x**2 - 4*x + 4
+result = minimize(f, 0)
+print('Task 6')
+print("Значение функции в минимуме:", result.fun)
