@@ -1,0 +1,14 @@
+import pandas as pd
+i = int(input('Enter index of string: '))
+if i < 0 or i > 16:
+    print('Error')
+else:
+
+    df_excel = pd.read_excel('Players.xlsx')
+
+    print(df_excel.head())
+    print(df_excel.tail())
+    print(df_excel.sample(5))
+    print(df_excel.iloc[i])
+    print(df_excel.info())
+
