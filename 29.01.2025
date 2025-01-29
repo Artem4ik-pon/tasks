@@ -4,13 +4,6 @@ import matplotlib.pyplot as plt
 file_path = 'Players.xlsx'  # Путь к файлу Excel
 df = pd.read_excel(file_path)
 def plot_dataframe_slice(df, rows=None, cols=None):
-    """
-    Отображает выбранные строки и столбцы DataFrame на графике.
-
-    :param df: DataFrame для визуализации.
-    :param rows: Индексы строк для отображения (по умолчанию None — все строки).
-    :param cols: Индексы столбцов для отображения (по умолчанию None — все столбцы).
-    """
     data_to_plot = df.iloc[rows, cols] if rows is not None and cols is not None else df.iloc[
         rows] if rows is not None else df.iloc[:, cols] if cols is not None else df
     data_to_plot.plot()
@@ -19,10 +12,5 @@ def plot_dataframe_slice(df, rows=None, cols=None):
     plt.ylabel('Значения')
     plt.grid()
     plt.show()
-
-
-# Пример использования
 if __name__ == "__main__":
-
-
-    plot_dataframe_slice(df, rows=[0, 2], cols=[0, 2])
+    plot_dataframe_slice(df, rows=[0,3], cols=[1, 2])
