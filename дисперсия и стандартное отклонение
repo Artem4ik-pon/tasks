@@ -1,0 +1,49 @@
+# import numpy as np
+# import matplotlib.pyplot as plt
+#
+#
+# y = [0.9, 1, 0.88, 1.02, 1.1, 0.97, 1.03, 1.07, 0.91]
+# y_med = sum(y)/ len(y)
+# s2 =  np.var(y)
+# print(y_med)
+# print(s2)
+#
+#
+# plt.figure(figsize=(8, 5))
+# plt.plot(y, marker='o', linestyle='-', color='g', label='Данные')
+# plt.axhline(y_med, color='r', linestyle='--', label='Среднее значение')
+# plt.title('График числового набора с дисперсией')
+# plt.xlabel('Индекс')
+# plt.ylabel('Значение')
+# plt.legend()
+# plt.grid()
+# plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+y = [0.9, 1, 0.88, 1.02, 1.1, 0.97, 1.03, 1.07, 0.91]
+x = [100.02,100.03,100.01,100.05,100.04,100.00,100.06,100.02,100.03,100.01]
+
+y_med = np.mean(y)
+s = np.std(y, ddof=1)
+n = len(y)
+se = s / np.sqrt(n)
+confidence_level = 0.95
+alpha = 1 - confidence_level
+t_critical = stats.t.ppf(1 - alpha/2, df=n-1)
+margin_of_error = t_critical * se
+ci_lower = y_med - margin_of_error
+ci_upper = y_med + margin_of_error
+print(f"Среднее значение: {y_med}")
+print(f"Стандартное отклонение: {s}")
+print(f"Доверительный интервал: [{ci_lower}, {ci_upper}]")
+plt.figure(figsize=(8, 5))
+plt.bar(x=['Среднее значение'], height=[y_med], yerr=[[y_med - ci_lower], [ci_upper - y_med]], capsize=5, color='skyblue', label='Доверительный интервал')
+plt.axhline(y_med, color='r', linestyle='--', label='Среднее значение')
+plt.title('Столбчатая диаграмма со средним значением и доверительным интервалом')
+plt.ylabel('Значение')
+plt.legend()
+plt.grid(axis='y')
+plt.show()
