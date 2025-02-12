@@ -1,0 +1,150 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Загружаем данные
+df = pd.read_excel("data.xlsx")  # Укажи свой файл
+X = df["X"]
+Y = df["Y"]
+Z = df["Z"]
+
+# Построение 3D-точек
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(X, Y, Z, c=Z, cmap='coolwarm')  # Точки окрашены по значению Z
+
+plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.colors import LightSource
+# Создаем координаты X, Y
+X = np.linspace(-10, 10, 500)
+Y = np.linspace(-10, 10, 500)
+X_grid, Y_grid = np.meshgrid(X, Y)
+# Функция рельефа (горы и холмы)
+Z_grid = np.sin(X_grid * 3 ) * 2 + np.cos(Y_grid) * 1.4142
+# Добавляем источник света
+ls = LightSource(azdeg=330, altdeg=50)
+# Используем plt.cm.terrain вместо 'terrain'
+shaded_Z = ls.shade(Z_grid, cmap=plt.cm.terrain, vert_exag=0.2, blend_mode='soft')
+# Создаем 3D-график
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+# Отображаем рельеф с тенью
+ax.plot_surface(X_grid, Y_grid, Z_grid, facecolors=shaded_Z, rstride=1, cstride=1)
+# Настройки осей
+ax.set_xlabel("X координата")
+ax.set_ylabel("Y координата")
+ax.set_zlabel("Высота (Z)")
+plt.show()
+
+
+
+
+
+
+
+
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+# Создание тёмной фигуры
+fig = plt.figure()
+fig.patch.set_facecolor('#222222')  # Установка цвета фона в тёмно-серый
+ax = fig.add_subplot(111, projection='3d')
+ax.set_facecolor('#222222')  # Установка цвета фона графика в тёмно-серый
+
+# Параметры сферы
+center = (0, 0, 0)
+radius = 1
+phi = np.linspace(0, np.pi, 100)
+theta = np.linspace(0, 2 * np.pi, 100)
+
+# Создание сетки сетки для сферы
+phi, theta = np.meshgrid(phi, theta)
+x = center + radius * np.sin(phi) * np.cos(theta)
+y = center + radius * np.sin(phi) * np.sin(theta)
+z = center + radius * np.cos(phi)
+
+# Рисование сферы оранжевого цвета
+ax.plot_surface(x, y, z, color='#FF5733', alpha=0.8)  # Оранжевый цвет
+
+# Установка меток осей и цвета текста
+ax.set_xlabel('X-ось', color='белый')
+ax.set_ylabel('Y-ось', color='белый')
+ax.set_zlabel('Z-ось', color='белый')
+ax.tick_params(axis='x', colors='белый')
+ax.tick_params(axis='y', colors='белый')
+ax.tick_params(axis='z', colors='белый')
+
+# Установка заголовка и цвета заголовка
+ax.set_title('Визуализация сферы на Python', color='белый')
+
+# Вывод графика
+plt.show()
+
+
+
+
+
+
+from numpy import sin, cos
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.integrate as integrate
+import matplotlib.animation as animation
+
+G = 9.8
+L1 = 1
+M1 = 1
+
+def derivs(state, t):
+    dydx = np.zeros_like(state)
+    dydx[0] = state[1]
+    dydx[1] = - (G / L1) * sin(state[0])
+    return dydx
+
+dt = 0.05
+t = np.arange(0.0, 20, dt)
+
+th1 = 120.0
+w1 = 0.0
+
+state = np.radians([th1, w1])
+
+y = integrate.odeint(derivs, state, t)
+
+
+x1 = L1 * sin(y[:, 0])
+y1 = -L1 * cos(y[:, 0])
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2, 2), ylim=(-2, 2))
+ax.grid()
+
+line, = ax.plot([], [], 'o-', lw=2)
+time_template = 'time = %.1fs'
+time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+
+def init():
+    line.set_data([], [])
+    time_text.set_text('')
+    return line, time_text
+
+def animate(i):
+    thisx = [0, x1[i]]
+    thisy = [0, y1[i]]
+
+    line.set_data(thisx, thisy)
+    time_text.set_text(time_template % (i * dt))
+    return line, time_text
+
+
+ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
+                              interval=25, blit=True, init_func=init)
+
+plt.show()
