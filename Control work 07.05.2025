@@ -24,3 +24,14 @@ axes[1].imshow(resized_image)
 axes[1].set_title('Resized Image  with shape '+str(resized_image.shape))
 plt.tight_layout()
 plt.show()
+
+# Task3
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3)
+model = LogisticRegression(max_iter=200)
+model.fit(X_train, y_train)
+print(f"Accuracy: {model.score(X_test, y_test):.2f}")
